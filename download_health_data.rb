@@ -20,7 +20,6 @@ class DownloadHealthInspections
 
 		self.downloadHealthListXML
 
-		@responseArray =[]
 
 
 	end
@@ -71,10 +70,11 @@ class DownloadHealthInspections
 
 	def parseHealthRecordSingle(healthRecord)
 		
-		parsedData = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
-		#temp = parsedData.parse (healthRecord)
-		puts parsedData
-		self.putHealthXMLinMongo(parsedData)
+		parsedData = Nori.new
+		temp = parsedData.parse (healthRecord)
+		puts temp
+		#puts temp['str'].attributes.to_s
+		self.putHealthXMLinMongo(temp)
 
 		
 
