@@ -57,13 +57,13 @@ class DownloadHealthInspections
 		self.putHealthXMLinMongo(parsedXML)
 	end
 
-
-
 	def putHealthXMLinMongo(mongoPayload)
 		@coll.insert(mongoPayload)
 	end
 
 end
+
+
 
 
 start = DownloadHealthInspections.new
