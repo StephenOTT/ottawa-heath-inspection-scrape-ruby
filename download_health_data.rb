@@ -21,8 +21,6 @@ class DownloadHealthInspections
 	def downloadHealthListXML
 		# TODO Add support for paging through all pages of content.  Use response.code to determine when no response if provided?
 		
-		#response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=results_en&qt=fsi_s&sq_app_id=fsi&sq_keywords=&sq_field=fname&sq_fs_ftcd=&sq_fs_fwcd=&sort=fs_insp_sort+asc%2Cscore+desc&cookie=t'
-		
 		responseCode = 200
 		count = 0
 
