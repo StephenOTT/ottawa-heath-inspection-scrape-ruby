@@ -4,8 +4,6 @@ require 'xmlsimple'
 
 include Mongo
 
-
-
 class DownloadHealthInspections
 
 	def initialize
@@ -17,8 +15,6 @@ class DownloadHealthInspections
 		@coll.remove
 
 		self.downloadHealthListXML
-
-
 
 	end
 
