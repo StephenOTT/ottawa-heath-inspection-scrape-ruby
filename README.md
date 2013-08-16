@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/StephenOTT/ottawa-heath-inspection-scrape-ruby.png)](https://codeclimate.com/github/StephenOTT/ottawa-heath-inspection-scrape-ruby)
+
 ottawa-heath-inspection-scrape-ruby
 ===================================
 
