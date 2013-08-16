@@ -32,8 +32,6 @@ class DownloadHealthInspections
 		   responseCode = response.code
 		   puts responseCode
 		end
-
-
 	end
 
 	def parseHealthListXML(xmlData)
