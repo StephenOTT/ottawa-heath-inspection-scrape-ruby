@@ -24,7 +24,8 @@ class DownloadHealthInspections
 		
 		responseCode = 200
 		count = 0
-
+	
+	
 		while responseCode == 200  do
 		   response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=results_en&qt=fsi_s&sq_app_id=fsi&sq_keywords=&sq_field=fname&sq_fs_ftcd=&sq_fs_fwcd=&sort=fs_insp_sort+asc%2Cscore+desc&cookie=t&start=' + count.to_s
 		   puts response
