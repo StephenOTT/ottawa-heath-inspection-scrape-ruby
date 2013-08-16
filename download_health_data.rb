@@ -52,24 +52,9 @@ class DownloadHealthInspections
 		end 
 	end
 
-	def downloadHealthRecordsXML(healthRecordSingleID)
-
-		
-		#response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=details_en&sq_fs_fdid=7FF5646A-9116-4765-85BE-F032459E9332&cookie=t'
-		#return response
-	end
-
 	def parseHealthRecordSingle(healthRecord)
-		
-		parsedData = Nori.new
-		temp = parsedData.parse (healthRecord)
-		puts temp
-		#puts temp['str'].attributes.to_s
-		self.putHealthXMLinMongo(temp)
-
-		
-
-
+  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name' })
+		self.putHealthXMLinMongo(parsedXML)
 	end
 
 
