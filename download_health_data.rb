@@ -1,8 +1,6 @@
-require 'nori'
 require 'rest_client'
-require 'nokogiri'
 require 'mongo'
-
+require 'xmlsimple'
 
 include Mongo
 
