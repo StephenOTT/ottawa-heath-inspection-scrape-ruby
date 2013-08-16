@@ -58,7 +58,7 @@ class DownloadHealthInspections
 	end
 
 	def parseHealthRecordSingle(healthRecord)
-  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name' })
+  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
 		self.putHealthXMLinMongo(parsedXML)
 	end
 
