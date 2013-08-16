@@ -2,7 +2,7 @@ require "nori"
 require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
-
+	
 include Mongo
 
 class DownloadHealthInspections
