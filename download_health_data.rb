@@ -45,7 +45,6 @@ class DownloadHealthInspections
 	def parseHealthListXML(xmlData)
 		parsedData = Nori.new
 		parsedXML = parsedData.parse(xmlData)
-		puts parsedXML
 		self.processHealthList(parsedXML)
 	end
 
