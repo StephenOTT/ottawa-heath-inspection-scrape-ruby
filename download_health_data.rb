@@ -67,7 +67,13 @@ class DownloadHealthInspections
 
 	def parseHealthRecordSingle(healthRecord)
   		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
-		self.putHealthXMLinMongo(parsedXML)
+		#puts "***********Parsed XML for Mongo"
+		#puts parsedXML
+
+		# Removes the first level in the parsed XML as it is a unneeded level
+		parsedXMLLevelAdjust = parsedXML["result"]
+		
+		self.putHealthXMLinMongo(parsedXMLLevelAdjust)
 	end
 
 	def putHealthXMLinMongo(mongoPayload)
