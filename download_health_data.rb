@@ -9,9 +9,9 @@ class DownloadHealthInspections
 
 	def initialize
 		
+		# MongoDB client and DB credential information
 		@client = MongoClient.new('localhost', 27017)
 		@db = @client['HealthInspections']
-		
 		@coll = @db['Inspections']
 		@coll.remove
 
