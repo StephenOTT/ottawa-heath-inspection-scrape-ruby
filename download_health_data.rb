@@ -57,11 +57,10 @@ class DownloadHealthInspections
 	def processHealthList(dataToParse)
 		healthList = dataToParse["response"]["result"]["doc"]
 		healthList.each do |y|
-			puts y["str"][0]
-			#self.downloadHealthRecordsXML(y["str"][0])
+			#puts y["str"][0]
 			response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=details_en&cookie=t&sq_fs_fdid=' + y["str"][0]
-			puts "Health Data Response:"
-			puts response
+			#puts "Health Data Response:"
+			#puts response
 			self.parseHealthRecordSingle(response)
 		end 
 	end
