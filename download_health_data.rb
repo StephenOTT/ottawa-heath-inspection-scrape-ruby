@@ -15,6 +15,10 @@ class DownloadHealthInspections
 		@coll = @db['Inspections']
 		@coll.remove
 
+		# Class variable for the initial Rest Client Call that grabs listing of Restaurants in the downloadHealthListXML method
+		@noResults = false
+
+
 		self.downloadHealthListXML
 
 	end
