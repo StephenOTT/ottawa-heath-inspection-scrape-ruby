@@ -45,7 +45,13 @@ class DownloadHealthInspections
 	def parseHealthListXML(xmlData)
 		parsedData = Nori.new
 		parsedXML = parsedData.parse(xmlData)
-		self.processHealthList(parsedXML)
+		if @count >= parsedXML["response"]["result"]["@numFound"].to_i
+			puts "All results returned"
+			@noResults=true
+		else
+			self.processHealthList(parsedXML)
+		end
+
 	end
 
 	def processHealthList(dataToParse)
