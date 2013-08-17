@@ -24,17 +24,19 @@ class DownloadHealthInspections
 	end
 
 	def downloadHealthListXML
-		# TODO Add support for paging through all pages of content.  Use response.code to determine when no response if provided?
 		
-		responseCode = 200
-		count = 0
-	
-	
-		while responseCode == 200  do
-		   response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=results_en&qt=fsi_s&sq_app_id=fsi&sq_keywords=&sq_field=fname&sq_fs_ftcd=&sq_fs_fwcd=&sort=fs_insp_sort+asc%2Cscore+desc&cookie=t&start=' + count.to_s
-		   responseCode = response.code
-		   puts response
-		   count += 15
+		# Class variable for keeping track of the pagination of Restaurant listings
+		@count = 0
+		
+		# Runs until the @Count value is greater than the @numFound value found in the parsedXML value in the parseHelathListXML method
+		while @noResults == false  do
+		   response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=results_en&qt=fsi_s&sq_app_id=fsi&sq_keywords=&sq_field=fname&sq_fs_ftcd=&sq_fs_fwcd=&sort=fs_insp_sort+asc%2Cscore+desc&cookie=t&start=' + @count.to_s
+	   
+		   #Count is incremented by 15 for each pass through the loop becuase the Restraunt Site will provide a max of 15 results at a time
+		   @count += 15
+		   
+		   # Debug Code for showing the current @count value
+		   puts "Count: #{@count}"
 
 		   self.parseHealthListXML(response)
 	
