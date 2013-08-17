@@ -39,8 +39,6 @@ class DownloadHealthInspections
 		   puts "Count: #{@count}"
 
 		   self.parseHealthListXML(response)
-	
-		   puts responseCode
 		end
 	end
 
