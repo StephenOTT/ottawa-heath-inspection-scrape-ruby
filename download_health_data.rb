@@ -128,14 +128,6 @@ class DownloadHealthInspections
 	def putHealthXMLinMongo(mongoPayload)
 		@coll.insert(mongoPayload)
 	end
-
-	def analyzeCountofRestaurantNames
-		return countOfRestaurantName = @coll.aggregate([
-		    { "$project" => {restaurant_name: {"$month" => "$created_at"}, state: 1}},
-		    { "$group" => {_id: {"created_month" => "$created_month", state: "$state"}, number: { "$sum" => 1 }}},
-		    { "$sort" => {"_id.created_month" => 1}}
-		])
-	end
 end
 
 
