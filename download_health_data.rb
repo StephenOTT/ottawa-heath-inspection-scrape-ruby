@@ -126,6 +126,20 @@ class DownloadHealthInspections
 end
 
 
+class AnalyzeHealthInspectionData
+
+	def initialize
+
+	end
+
+	def analyze
+	end
+
+
+end
+
+
+
 
 
 start = DownloadHealthInspections.new
