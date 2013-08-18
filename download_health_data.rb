@@ -70,6 +70,9 @@ class DownloadHealthInspections
   		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
 
 		parsedXMLLevelAdjust = parsedXML["result"]
+		puts parsedXMLLevelAdjust
+		puts parsedXMLLevelAdjust[0]["doc"][0]["str"]["fs_fstlu"][0..-5]
+
 		self.convertDatesForMongo(parsedXMLLevelAdjust)
 	end
 
