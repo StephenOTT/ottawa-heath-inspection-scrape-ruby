@@ -57,3 +57,6 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 22. General Count of Resturant Inspection Failures Per Restaurant
 23. Restaurant Inspection Failures per restaurant per week, month and quarter
 24. Analyst of Inspections and Pass/Fail of Food Cart/Truck Vendors
+25. Phone Number Analysis (Area Codes)
+26. Shared Phone Numbers Analysis
+27. Street Analysis - Breakdown of restaurants per street with failures
