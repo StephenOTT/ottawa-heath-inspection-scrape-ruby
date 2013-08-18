@@ -1,4 +1,3 @@
-require "nori"
 require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
@@ -44,9 +43,8 @@ class DownloadHealthInspections
 	end
 
 	def parseHealthListXML(xmlData)
-		parsedData = Nori.new
-		parsedXML = parsedData.parse(xmlData)
-		if @count >= parsedXML["response"]["result"]["@numFound"].to_i + 15
+		parsedXML = XmlSimple.xml_in(xmlData, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
+		if @count >= parsedXML["result"][0]["numFound"].to_i + 15
 			puts "All results returned"
 			@noResults=true
 		else
@@ -56,12 +54,9 @@ class DownloadHealthInspections
 	end
 
 	def processHealthList(dataToParse)
-		healthList = dataToParse["response"]["result"]["doc"]
+		healthList = dataToParse["result"][0]["doc"]
 		healthList.each do |y|
-			#puts y["str"][0]
-			response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=details_en&cookie=t&sq_fs_fdid=' + y["str"][0]
-			#puts "Health Data Response:"
-			#puts response
+			response = RestClient.get 'http://app06.ottawa.ca/cgi-bin/search/inspections/q.pl?ss=details_en&cookie=t&sq_fs_fdid=' + y["str"]["fs_fdid"]
 			self.parseHealthRecordSingle(response)
 		end 
 	end
