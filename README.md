@@ -15,7 +15,7 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 
 ## TODO
 
-- [ ] Convert Date/Times to a proper format for Mongo - Refer to Github-Analytics Convert DateTime methods for code for conversion for mongo
+- [x] Convert Date/Times to a proper format for Mongo - Refer to Github-Analytics Convert DateTime methods for code for conversion for mongo (Completed)
 
 
 ## Notes:
@@ -60,3 +60,5 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 25. Phone Number Analysis (Area Codes)
 26. Shared Phone Numbers Analysis
 27. Street Analysis - Breakdown of restaurants per street with failures
+28. Analysis count of restaurants that have no inspections
+29. Analysis count of restaurants that are marked as "Closed" (example from old Drupal repo: https://github.com/StephenOTT/OttawaHealthInspectionsScrape/issues/5)
