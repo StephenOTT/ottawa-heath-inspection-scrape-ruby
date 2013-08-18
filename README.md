@@ -13,6 +13,10 @@ Downloading of Ottawa Health Inspection Data with Ruby into MongoDB database
 
 All data will download into mongodb database.  Each company.restaurant is a single object in mongo.  Any inspections are sub-documents in Mongo.
 
+## TODO
+
+- [ ] Convert Date/Times to a proper format for Mongo - Refer to Github-Analytics Convert DateTime methods for code for conversion for mongo
+
 
 ## Notes:
 
@@ -48,4 +52,8 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 17. Least Inspected Restaurants
 18. Most Inspected Resturants Per Category
 19. Least Inspected Resturants Per Cateogry
-20. 
+20. Restaurant Inspections Count Per Cateogry Broken down by Month, Quarter and Week.
+21. Analysis of Record Creation / Restaurant Creation
+22. General Count of Resturant Inspection Failures Per Restaurant
+23. Restaurant Inspection Failures per restaurant per week, month and quarter
+24. 
