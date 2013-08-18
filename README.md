@@ -27,7 +27,7 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 
 ## Downloads
 1. Aug 17 - 5445 Records were downloaded in 7303.2 seconds - According to count on Health Inspections report website there is are a total of 5453 records.  Need to investigate the missing records
-
+2. Aug 17 - 5453 Records were downloaded in 7213.8 seconds - Count Matches Website Count value
 
 -----
 
