@@ -2,6 +2,7 @@ require "nori"
 require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
+require 'date'
 	
 include Mongo
 
@@ -69,8 +70,56 @@ class DownloadHealthInspections
   		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
 
 		parsedXMLLevelAdjust = parsedXML["result"]
+		self.convertDatesForMongo(parsedXMLLevelAdjust)
+	end
+
+	def convertDatesForMongo(parsedXML)
 		
-		self.putHealthXMLinMongo(parsedXMLLevelAdjust)
+		# Fixes Date Strings in Facility/Restarant information
+		# If statement is used to ensure that the date is not null otherway the strptime would throw a exception if it was null
+		# If Statement is only used because of data inconsistancies with Health Inspection Data
+		if parsedXML[0]["doc"][0]["str"]["fs_fcr_date"] != nil
+			parsedXML[0]["doc"][0]["str"]["fs_fcr_date"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fcr_date"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		end
+
+		if parsedXML[0]["doc"][0]["str"]["fs_fefd"] != nil
+			parsedXML[0]["doc"][0]["str"]["fs_fefd"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fefd"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		end
+
+		if parsedXML[0]["doc"][0]["str"]["fs_fstlu"] != nil
+			parsedXML[0]["doc"][0]["str"]["fs_fstlu"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fstlu"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		end
+
+		# Fixes all English Inspection date strings
+		#First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_en hash in empty/null
+		if parsedXML[0]["doc"][0]["arr"]["fs_insp_en"].empty? == false
+			parsedXML[0]["doc"][0]["arr"]["fs_insp_en"]["inspection"].each do |y|
+				if y["inspectiondate"] != nil
+					y["inspectiondate"] = DateTime.strptime(y["inspectiondate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				end
+
+				if y["closuredate"] != nil
+					y["closuredate"] = DateTime.strptime(y["closuredate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				end
+			end
+		end
+
+		# Fixes all French Inspection date string
+		#First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_fr hash in empty/null
+		if parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"].empty? == false	
+			parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"]["inspection"].each do |y|
+				if y["inspectiondate"] != nil
+					y["inspectiondate"] = DateTime.strptime(y["inspectiondate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				end
+
+				if y["closuredate"] != nil
+					y["closuredate"] = DateTime.strptime(y["closuredate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				end
+			end
+		end
+
+		# Send fixed parsedXML into MongoDB
+		self.putHealthXMLinMongo(parsedXML)
 	end
 
 	def putHealthXMLinMongo(mongoPayload)
