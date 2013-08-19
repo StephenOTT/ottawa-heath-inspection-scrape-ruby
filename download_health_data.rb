@@ -169,7 +169,14 @@ end
 
 
 
-start = DownloadHealthInspections.new
+#start = DownloadHealthInspections.new
+analyze = AnalyzeHealthInspectionData.new
+puts "************************************************** Restarant Name Count:"
+puts analyze.analyzeRestaurantNameCount
+puts "************************************************** Restarant Category Count:"
+puts analyze.analyzeRestaurantCategoryCount
+puts "************************************************** Restarants Per Street Count:"
+puts analyze.analyzeRestaurantStreetCount
 
 
 
