@@ -13,6 +13,8 @@ class DownloadHealthInspections
 		@client = MongoClient.new('localhost', 27017)
 		@db = @client['HealthInspections']
 		@coll = @db['Inspections']
+		
+		# Clears out the collection - Primarly used for Testing/Debug but has production reasons as well
 		@coll.remove
 
 		# Class variable for the initial Rest Client Call that grabs listing of Restaurants in the downloadHealthListXML method
