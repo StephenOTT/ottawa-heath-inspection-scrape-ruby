@@ -62,3 +62,13 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 27. Street Analysis - Breakdown of restaurants per street with failures
 28. Analysis count of restaurants that have no inspections
 29. Analysis count of restaurants that are marked as "Closed" (example from old Drupal repo: https://github.com/StephenOTT/OttawaHealthInspectionsScrape/issues/5)
+
+
+
+------
+
+## Data Sample of Restaurant in Mongo (Using Robomongo for the Visulization):
+
+![screen shot 2013-08-18 at 8 57 07 pm](https://f.cloud.github.com/assets/1994838/983548/601881a4-086a-11e3-971b-e5e9db255e82.png)
+![screen shot 2013-08-18 at 8 57 14 pm](https://f.cloud.github.com/assets/1994838/983549/61d39a4c-086a-11e3-96cc-73ad9fc5296f.png)
+![screen shot 2013-08-18 at 8 56 51 pm](https://f.cloud.github.com/assets/1994838/983550/638c23c2-086a-11e3-9178-170a5f06f64f.png)
