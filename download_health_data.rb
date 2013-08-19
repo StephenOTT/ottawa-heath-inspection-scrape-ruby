@@ -138,6 +138,12 @@ class AnalyzeHealthInspectionData
 	
 	end
 
+	def analyzeRestaurantNameCount
+		return restaurantNameCount = @coll.aggregate([
+		    { "$project" => {doc:{str:{fs_fnm: 1}}}},
+		    { "$group" => {_id: "$doc.str.fs_fnm", number: { "$sum" => 1 }}},
+		    { "$sort" => {"_id" => 1 }}
+		])
 	end
 
 	def analyze
