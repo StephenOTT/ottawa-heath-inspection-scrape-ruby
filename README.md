@@ -69,7 +69,7 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 
 ------
 
-## Data Sample of Restaurant in Mongo (Using Robomongo for the Visulization):
+## Data Sample of Restaurant in Mongo (Using Robomongo for the Visualization):
 
 ![screen shot 2013-08-18 at 8 57 07 pm](https://f.cloud.github.com/assets/1994838/983548/601881a4-086a-11e3-971b-e5e9db255e82.png)
 ![screen shot 2013-08-18 at 8 57 14 pm](https://f.cloud.github.com/assets/1994838/983549/61d39a4c-086a-11e3-96cc-73ad9fc5296f.png)
