@@ -162,6 +162,13 @@ class AnalyzeHealthInspectionData
 		])
 	end
 
+	def analyzeRestaurantCreationDateCount
+		return restaurantNameCount = @coll.aggregate([
+		    { "$project" => {doc:{str:{fs_fcr_date: 1}}}},
+		    { "$group" => {_id: "$doc.str.fs_fcr_date", number: { "$sum" => 1 }}},
+		    { "$sort" => {"_id" => 1 }}
+		])
+	end
 
 end
 
@@ -177,6 +184,8 @@ puts "************************************************** Restarant Category Coun
 puts analyze.analyzeRestaurantCategoryCount
 puts "************************************************** Restarants Per Street Count:"
 puts analyze.analyzeRestaurantStreetCount
+puts "************************************************** Restarants Creation Date Count:"
+puts analyze.analyzeRestaurantCreationDateCount
 
 
 
