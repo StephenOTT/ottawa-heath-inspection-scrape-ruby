@@ -91,7 +91,7 @@ class DownloadHealthInspections
 		end
 
 		# Fixes all English Inspection date strings
-		#First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_en hash in empty/null
+		# First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_en hash in empty/null
 		if parsedXML[0]["doc"][0]["arr"]["fs_insp_en"].empty? == false
 			parsedXML[0]["doc"][0]["arr"]["fs_insp_en"]["inspection"].each do |y|
 				if y["inspectiondate"] != nil
@@ -105,7 +105,7 @@ class DownloadHealthInspections
 		end
 
 		# Fixes all French Inspection date string
-		#First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_fr hash in empty/null
+		# First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_fr hash in empty/null
 		if parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"].empty? == false	
 			parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"]["inspection"].each do |y|
 				if y["inspectiondate"] != nil
