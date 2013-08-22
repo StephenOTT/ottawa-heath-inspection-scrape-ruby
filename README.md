@@ -17,8 +17,7 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 
 - [x] ~~Convert Date/Times to a proper format for Mongo - Refer to Github-Analytics Convert DateTime methods for code for conversion for mongo (Completed)~~
 - [ ] Add suport for multilingual (En/Fr) Analysis class responses
-- [ ] Convert into MVC
-- [ ] Build Rails site
+- [ ] Convert into Sinatra App
 
 ## Notes:
 

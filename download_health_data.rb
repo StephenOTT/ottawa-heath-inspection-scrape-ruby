@@ -2,7 +2,10 @@ require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
 require 'date'
-	
+require 'sinatra'
+require 'chartkick'
+
+
 include Mongo
 
 class DownloadHealthInspections
@@ -64,7 +67,7 @@ class DownloadHealthInspections
 	end
 
 	def parseHealthRecordSingle(healthRecord)
-  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
+  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content',  'GroupTags' => { 'doc' => '' }} )
 
 		parsedXMLLevelAdjust = parsedXML["result"]
 		puts parsedXMLLevelAdjust
@@ -147,7 +150,7 @@ class AnalyzeHealthInspectionData
 	end
 
 	def analyzeRestaurantCategoryCount
-		return restaurantNameCount = @coll.aggregate([
+		return restaurantCategoryCount = @coll.aggregate([
 		    { "$project" => {doc:{str:{fs_ft_en: 1}}}},
 		    { "$group" => {_id: "$doc.str.fs_ft_en", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
@@ -155,7 +158,7 @@ class AnalyzeHealthInspectionData
 	end
 
 	def analyzeRestaurantStreetCount
-		return restaurantNameCount = @coll.aggregate([
+		return restaurantStreetCount = @coll.aggregate([
 		    { "$project" => {doc:{str:{fs_fss: 1}}}},
 		    { "$group" => {_id: "$doc.str.fs_fss", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
@@ -163,32 +166,59 @@ class AnalyzeHealthInspectionData
 	end
 
 	def analyzeRestaurantCreationDateCount
-		return restaurantNameCount = @coll.aggregate([
+		return restaurantCreationDateCount = @coll.aggregate([
 		    { "$project" => {doc:{str:{fs_fcr_date: 1}}}},
 		    { "$group" => {_id: "$doc.str.fs_fcr_date", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
 	end
 
-end
+	def produceChart(data)
 
+		values = []
+		legend = []
+
+		data.each do |x|
+			legend.push(x["_id"][0])
+			values.push(x["number"])
+		end
+
+			return chartURL = Gchart.bar(:title => "Event Types",
+        	:data => values, 
+        	#:bar_colors => 'FF0000,267678,FF0055,0800FF,00FF00',
+        	:stacked => false, :size => '500x900',
+        	:legend => legend)
+	end
+
+
+
+
+end
 
 
 
 
 #start = DownloadHealthInspections.new
 analyze = AnalyzeHealthInspectionData.new
-puts "************************************************** Restarant Name Count:"
-puts analyze.analyzeRestaurantNameCount
-puts "************************************************** Restarant Category Count:"
-puts analyze.analyzeRestaurantCategoryCount
-puts "************************************************** Restarants Per Street Count:"
-puts analyze.analyzeRestaurantStreetCount
-puts "************************************************** Restarants Creation Date Count:"
-puts analyze.analyzeRestaurantCreationDateCount
+
+#puts "************************************************** Restarant Name Count:"
+#puts analyze.analyzeRestaurantNameCount
+#puts "************************************************** Restarant Category Count:"
+#puts analyze.analyzeRestaurantCategoryCount
+
+#puts analyze.produceChart(analyze.analyzeRestaurantCategoryCount)
+
+#puts "************************************************** Restarants Per Street Count:"
+#puts analyze.analyzeRestaurantStreetCount
+#puts "************************************************** Restarants Creation Date Count:"
+#puts analyze.analyzeRestaurantCreationDateCount
+#dog = analyze.analyzeRestaurantCategoryCount
 
 
+get '/' do
+	code = '<script src="//www.google.com/jsapi"></script> <script src="//chartkick.js"></script>	<%= pie_chart({"Football" => 10, "Basketball" => 5}) %>	<%= pie_chart [["Football", 10], ["Basketball", 5]] %>'
+	erb code
 
-
+end
 
 
