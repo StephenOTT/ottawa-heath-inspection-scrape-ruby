@@ -75,51 +75,175 @@ class DownloadHealthInspections
 		#puts parsedXML
 		#selectAllEnglishInspectionData = "response/result/doc/arr[@name='fs_insp_en']//*"
 		
-		# Fixes Date Strings in Facility/Restarant information
-		# If statement is used to ensure that the date is not null otherway the strptime would throw a exception if it was null
-		# If Statement is only used because of data inconsistancies with Health Inspection Data
-		if parsedXML[0]["doc"][0]["str"]["fs_fcr_date"] != nil
-			parsedXML[0]["doc"][0]["str"]["fs_fcr_date"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fcr_date"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		# Restaurant/Facility Information/Details
+		inspValue_app_id = parsedXML.xpath("string(response/result/doc/str[@name='app_id'])")
+		inspValue_fs_fa_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_fa_en'])")
+		inspValue_fs_fa_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_fa_fr'])")
+		inspValue_fs_facd = parsedXML.xpath("string(response/result/doc/str[@name='fs_facd'])")
+		inspValue_fs_faid = parsedXML.xpath("string(response/result/doc/str[@name='fs_faid'])")
+		inspValue_fs_fcr = parsedXML.xpath("string(response/result/doc/str[@name='fs_fcr'])")
+		
+		if parsedXML.xpath("string(response/result/doc/str[@name='fs_fcr_date'])") != ""
+			inspValue_fs_fcr_date = DateTime.strptime(parsedXML.xpath("string(response/result/doc/str[@name='fs_fcr_date'])")[0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		else
+			inspValue_fs_fcr_date = nil
 		end
 
-		if parsedXML[0]["doc"][0]["str"]["fs_fefd"] != nil
-			parsedXML[0]["doc"][0]["str"]["fs_fefd"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fefd"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		inspValue_fs_fdid = parsedXML.xpath("string(response/result/doc/str[@name='fs_fdid'])")
+		
+		if parsedXML.xpath("string(response/result/doc/str[@name='fs_fefd'])") != ""
+			inspValue_fs_fefd = DateTime.strptime(parsedXML.xpath("string(response/result/doc/str[@name='fs_fefd'])")[0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		else
+			inspValue_fs_fefd = nil
 		end
 
-		if parsedXML[0]["doc"][0]["str"]["fs_fstlu"] != nil
-			parsedXML[0]["doc"][0]["str"]["fs_fstlu"] = DateTime.strptime(parsedXML[0]["doc"][0]["str"]["fs_fstlu"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		inspValue_fs_fnm = parsedXML.xpath("string(response/result/doc/str[@name='fs_fnm'])")
+		inspValue_fs_fsc = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsc'])")
+		inspValue_fs_fsd = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsd'])")
+		inspValue_fs_fsf = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsf'])")
+		inspValue_fs_fsp_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsp_en'])")
+		inspValue_fs_fsp_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsp_fr'])")
+		inspValue_fs_fspc = parsedXML.xpath("string(response/result/doc/str[@name='fs_fspc'])")
+		inspValue_fs_fspcd = parsedXML.xpath("string(response/result/doc/str[@name='fs_fspcd'])")
+		inspValue_fs_fsph = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsph'])")
+		inspValue_fs_fspid = parsedXML.xpath("string(response/result/doc/str[@name='fs_fspid'])")
+		inspValue_fs_fss = parsedXML.xpath("string(response/result/doc/str[@name='fs_fss'])")
+		inspValue_fs_fst = parsedXML.xpath("string(response/result/doc/str[@name='fs_fst'])")
+		inspValue_fs_fstcd = parsedXML.xpath("string(response/result/doc/str[@name='fs_fstcd'])")
+		inspValue_fs_fstic = parsedXML.xpath("string(response/result/doc/str[@name='fs_fstic'])")
+		inspValue_fs_fstid = parsedXML.xpath("string(response/result/doc/str[@name='fs_fstid'])")
+		
+		if parsedXML.xpath("string(response/result/doc/str[@name='fs_fstlu'])") != ""
+			inspValue_fs_fstlu = DateTime.strptime(parsedXML.xpath("string(response/result/doc/str[@name='fs_fstlu'])")[0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		else
+			inspValue_fs_fstlu = nil
 		end
 
-		# Fixes all English Inspection date strings
-		# First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_en hash in empty/null
-		if parsedXML[0]["doc"][0]["arr"]["fs_insp_en"].empty? == false
-			parsedXML[0]["doc"][0]["arr"]["fs_insp_en"]["inspection"].each do |y|
-				if y["inspectiondate"] != nil
-					y["inspectiondate"] = DateTime.strptime(y["inspectiondate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+		inspValue_fs_fsun = parsedXML.xpath("string(response/result/doc/str[@name='fs_fsun'])")
+		inspValue_fs_ft_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_ft_en'])")
+		inspValue_fs_ft_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_ft_fr'])")
+		inspValue_fs_ftcd = parsedXML.xpath("string(response/result/doc/str[@name='fs_ftcd'])")
+		inspValue_fs_ftcd_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_ftcd_en'])")
+		inspValue_fs_ftcd_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_ftcd_fr'])")
+		inspValue_fs_ftid = parsedXML.xpath("string(response/result/doc/str[@name='fs_ftid'])")
+		inspValue_fs_fw_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_fw_en'])")
+		inspValue_fs_fw_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_fw_fr'])")
+		inspValue_fs_fwcd = parsedXML.xpath("string(response/result/doc/str[@name='fs_fwcd'])")
+		inspValue_fs_fwcd_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_fwcd_en'])")
+		inspValue_fs_fwcd_fr = parsedXML.xpath("string(response/result/doc/str[@name='fs_fwcd_fr'])")
+		inspValue_fs_fwid = parsedXML.xpath("string(response/result/doc/str[@name='fs_fwid'])")
+		inspValue_fs_insp_sort = parsedXML.xpath("string(response/result/doc/str[@name='fs_insp_sort'])")
+		inspValue_id = parsedXML.xpath("string(response/result/doc/str[@name='id'])")
+		
+
+		# Gets the number of <inspection> fields in the xml for the loop
+		facilityInspectionCount = parsedXML.xpath("count(response/result/doc/arr[@name='fs_insp_en']/inspection)").to_i
+	
+
+
+		# loops through each <inspection> tag
+		if facilityInspectionCount != 0 
+			
+			facilityInspections ={}
+			
+			(1..facilityInspectionCount).each do |i|
+				
+
+			   
+				facilityinspectionData_inspectionid = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@inspectionid)")
+				facilityinspectionData_facilitydetailid = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@facilitydetailid)")
+				facilityinspectionData_inspectiondate = DateTime.strptime(parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@inspectiondate)")[0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				facilityinspectionData_isincompliance = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@isincompliance)")
+				facilityinspectionData_closuredate = DateTime.strptime(parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@closuredate)")[0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				facilityinspectionData_reportnumber = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/@reportnumber)")
+
+				# gets the number of <question> fields in the xml for use in the loop
+				facilityInspectionQuestionCount = parsedXML.xpath("count(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question)").to_i
+				
+				if facilityInspectionQuestionCount != 0
+
+					inspectionQuestions = {}
+
+					# Collect Question data - loops through each question
+					(1..facilityInspectionQuestionCount).each do |qc|
+
+						facilityinspectionData_QuestionData_sort = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@sort)")
+						facilityinspectionData_QuestionData_complianceresultcode = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@complianceresultcode)")
+						facilityinspectionData_QuestionData_complianceresulttext = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@complianceresulttext)")
+						facilityinspectionData_QuestionData_risklevelid = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@risklevelid)")
+						facilityinspectionData_QuestionData_riskleveltext = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@riskleveltext)")
+						facilityinspectionData_QuestionData_compliancecategorycode = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@compliancecategorycode)")
+						facilityinspectionData_QuestionData_compliancecategorytext = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@compliancecategorytext)")
+						facilityinspectionData_QuestionData_compliancedescriptioncode = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/@compliancedescriptioncode)")
+
+						# qtext value
+						facilityinspectionData_QuestionData_qtext = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/qtext)")
+
+						facilityInspectionQuestionCommentCount = parsedXML.xpath("count(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/comment)").to_i
+						
+						if facilityInspectionQuestionCommentCount != 0
+
+							# Hash to hold each of the comments for each of the questions for each of the inspections
+							inspectionQuestionComments = {}
+
+							# Collect Comment Data - loops through each comment field in the xml of each question field of each inspection
+							(1..facilityInspectionQuestionCommentCount).each do |qcc|
+
+								facilityinspectionData_QuestionDataCommentText = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/comment[#{qcc}])")
+								inspectionQuestionComments['comment_' + qcc.to_s] = facilityinspectionData_QuestionDataCommentText
+							end
+						end
+										# Add Question text and question details 
+						inspectionQuestions['question_' + qc.to_s] = {	'Sort' => facilityinspectionData_QuestionData_sort, 
+																		'ComplianceResultCode'  => facilityinspectionData_QuestionData_complianceresultcode,
+																		'ComplianceResultText' => facilityinspectionData_QuestionData_complianceresulttext,
+																		'RiskLevelId' => facilityinspectionData_QuestionData_risklevelid,
+																		'RiskLevelText' => facilityinspectionData_QuestionData_riskleveltext,
+																		'ComplianceCategoryCode' => facilityinspectionData_QuestionData_compliancecategorycode,
+																		'ComplianceCategoryText' => facilityinspectionData_QuestionData_compliancecategorytext,
+																		'ComplianceDescriptionCode' => facilityinspectionData_QuestionData_compliancedescriptioncode,
+																		'QuestionText' => facilityinspectionData_QuestionData_qtext,
+																		'InspectionQuestionComments' => inspectionQuestionComments
+																	}
+						if facilityInspectionQuestionCommentCount == 0
+							inspectionQuestions['question_' + qc.to_s].delete('InspectionQuestionComments')
+						end
+					end
 				end
 
-				if y["closuredate"] != nil
-					y["closuredate"] = DateTime.strptime(y["closuredate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
+				facilityInspections['inspection_' + i.to_s] = {
+													'InspectionId' => facilityinspectionData_inspectionid,
+													'FacilityDetailId' => facilityinspectionData_facilitydetailid,
+													'InspectionDate' => facilityinspectionData_inspectiondate,
+													'IsInCompliance' => facilityinspectionData_isincompliance,
+													'ClosureDate' => facilityinspectionData_closuredate,
+													'ReportNumber' => facilityinspectionData_reportnumber,
+													'InspectionQuestionDetails' => inspectionQuestions
+												}
+				if facilityInspectionQuestionCount == 0 
+					facilityInspections['inspection_' + i.to_s].delete('InspectionQuestionDetails')
 				end
 			end
 		end
-
-		# Fixes all French Inspection date string
-		# First if statement checks to see if there are any inspections that need to be modified.  This is done by checking to see if the fs_insp_fr hash in empty/null
-		if parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"].empty? == false	
-			parsedXML[0]["doc"][0]["arr"]["fs_insp_fr"]["inspection"].each do |y|
-				if y["inspectiondate"] != nil
-					y["inspectiondate"] = DateTime.strptime(y["inspectiondate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
-				end
-
-				if y["closuredate"] != nil
-					y["closuredate"] = DateTime.strptime(y["closuredate"][0..-5], '%Y-%m-%d %H:%M:%S').to_time.utc
-				end
-			end
+		# Hash that holds all of the details for the specific facility
+		facilityDetails = {
+							'app_id' => inspValue_app_id,
+							'fs_fa_en' => inspValue_fs_fa_en,
+							'fs_fa_fr' => inspValue_fs_fa_fr,
+							'fs_facd' => inspValue_fs_facd,
+							'fs_faid' => inspValue_fs_faid,
+							'FacilityInspections' => facilityInspections
+							
+						}
+		if facilityInspectionCount == 0
+			facilityDetails.delete('FacilityInspections')
 		end
 
-		# Send fixed parsedXML into MongoDB
-		self.putHealthXMLinMongo(parsedXML)
+		puts '***** Facility Hash ******'
+		puts pp facilityDetails
+		puts '*********END**************'
+		
+		self.putHealthXMLinMongo(facilityDetails)
 	end
 
 	def putHealthXMLinMongo(mongoPayload)
