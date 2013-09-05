@@ -77,4 +77,6 @@ NOTE: Sept 2: Major refactor coming in next few days that better reformats data 
 
 ## Data Sample of Restaurant in Mongo (Using Robomongo for the Visualization):
 
-![screen shot 2013-09-05 at 1 30 09 am](https://f.cloud.github.com/assets/1994838/1085995/58be5ae8-15ec-11e3-9606-96a1cba4284e.png)
+![screen shot 2013-09-05 at 1 58 09 am](https://f.cloud.github.com/assets/1994838/1086089/53bf143e-15f0-11e3-9f80-0161579bc1bb.png)
+![screen shot 2013-09-05 at 1 58 37 am](https://f.cloud.github.com/assets/1994838/1086090/5533113a-15f0-11e3-9ef7-70c5024623b1.png)
+
