@@ -128,6 +128,7 @@ class DownloadHealthInspections
 end
 
 
+# TODO rebuild Queries because of new data structure
 class AnalyzeHealthInspectionData
 
 	def initialize
