@@ -70,16 +70,6 @@ class DownloadHealthInspections
 	end
 
 	def parseHealthRecordSingle(healthRecord)
-  		parsedXML = XmlSimple.xml_in(healthRecord, { 'KeyAttr' => 'name', 'ContentKey' => '-content',  'GroupTags' => { 'doc' => '' }} )
-
-		parsedXMLLevelAdjust = parsedXML["result"]
-		puts parsedXMLLevelAdjust
-		puts parsedXMLLevelAdjust[0]["doc"][0]["str"]["fs_fstlu"][0..-5]
-
-		self.convertDatesForMongo(parsedXMLLevelAdjust)
-	end
-
-	def convertDatesForMongo(parsedXML)
 		
 		# Fixes Date Strings in Facility/Restarant information
 		# If statement is used to ensure that the date is not null otherway the strptime would throw a exception if it was null
