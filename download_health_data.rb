@@ -69,6 +69,14 @@ class DownloadHealthInspections
 		end 
 	end
 
+
+
+
+	# TODO Add comments for xml parsing loops and structure
+	# TODO Refactor visual of code for better readability
+	# TODO Benchmark and time test parse and look for optimizations
+	# TODO Rename Variables for better understanding and less similar names
+	# TODO 
 	def parseHealthRecordSingle(healthRecord)
   		puts healthRecord
 		parsedXML = Nokogiri::XML(healthRecord)
