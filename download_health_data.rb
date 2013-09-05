@@ -380,12 +380,4 @@ start = DownloadHealthInspections.new
 #puts "************************************************** Restarants Creation Date Count:"
 #puts analyze.analyzeRestaurantCreationDateCount
 #dog = analyze.analyzeRestaurantCategoryCount
-
-
-get '/' do
-	code = '<script src="//www.google.com/jsapi"></script> <script src="//chartkick.js"></script>	<%= pie_chart({"Football" => 10, "Basketball" => 5}) %>	<%= pie_chart [["Football", 10], ["Basketball", 5]] %>'
-	erb code
-
-end
-
 #dog = analyze.analyzeRestaurantCategoryCount
