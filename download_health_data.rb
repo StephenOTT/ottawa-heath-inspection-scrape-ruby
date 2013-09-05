@@ -147,11 +147,21 @@ class AnalyzeHealthInspectionData
 	end
 
 	def analyzeRestaurantCategoryCount
-		return restaurantCategoryCount = @coll.aggregate([
+		restaurantCategoryCount = @coll.aggregate([
 		    { "$project" => {doc:{str:{fs_ft_en: 1}}}},
 		    { "$group" => {_id: "$doc.str.fs_ft_en", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
+		
+		# TODO clean up hash creation code with better namming
+		newHash={}
+		restaurantCategoryCount.each do |x|
+
+			newHash[x["_id"][0]] = x["number"]
+
+		end
+		return newHash
+
 	end
 
 	def analyzeRestaurantStreetCount
