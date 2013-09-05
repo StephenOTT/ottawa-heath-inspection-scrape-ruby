@@ -224,6 +224,9 @@ start = DownloadHealthInspections.new
 #puts "************************************************** Restarant Category Count:"
 #puts analyze.analyzeRestaurantCategoryCount
 
+#puts "************************************************** Restarant Category Created Per Month Count:"
+#puts analyze.analyzeRestaurantsCreatedPerMonth
+
 #puts analyze.produceChart(analyze.analyzeRestaurantCategoryCount)
 
 #puts "************************************************** Restarants Per Street Count:"
@@ -239,3 +242,4 @@ get '/' do
 
 end
 
+#dog = analyze.analyzeRestaurantCategoryCount
