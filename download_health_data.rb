@@ -278,6 +278,7 @@ class DownloadHealthInspections
 							'FacilityInspections' => facilityInspections
 							
 						}
+
 		if facilityInspectionCount == 0
 			facilityDetails.delete('FacilityInspections')
 		end
