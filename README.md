@@ -20,6 +20,8 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 - [ ] Convert into Sinatra App
 - [ ] Rebuild Analysis/Aggregation code for new usage of Nokogiri
 - [ ] Split .rd file into separate files (download, analyze, Sinatra stuff, etc)
+- [ ] Provide JSON output option to use as API
+- [ ] Provide Query/Search feature (Input Restaurant ID, and Output Restaurant details and inspections) - Used for API-Like functionality that does not require DB for storage.  A list API would provide listing of restaurants/facilities with a ID value which is used to query the Health inspection site.  Returned values would be in JSON structure.
 
 
 
