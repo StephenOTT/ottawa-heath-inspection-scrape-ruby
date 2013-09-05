@@ -18,6 +18,7 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 - [x] ~~Convert Date/Times to a proper format for Mongo - Refer to Github-Analytics Convert DateTime methods for code for conversion for mongo (Completed)~~
 - [ ] Add suport for multilingual (En/Fr) Analysis class responses
 - [ ] Convert into Sinatra App
+- [ ] Rebuild Analysis/Aggregation code for new usage of Nokogiri
 
 
 
@@ -76,6 +77,4 @@ NOTE: Sept 2: Major refactor coming in next few days that better reformats data 
 
 ## Data Sample of Restaurant in Mongo (Using Robomongo for the Visualization):
 
-![screen shot 2013-08-18 at 8 57 07 pm](https://f.cloud.github.com/assets/1994838/983548/601881a4-086a-11e3-971b-e5e9db255e82.png)
-![screen shot 2013-08-18 at 8 57 14 pm](https://f.cloud.github.com/assets/1994838/983549/61d39a4c-086a-11e3-96cc-73ad9fc5296f.png)
-![screen shot 2013-08-18 at 8 56 51 pm](https://f.cloud.github.com/assets/1994838/983550/638c23c2-086a-11e3-9178-170a5f06f64f.png)
+![screen shot 2013-09-05 at 1 30 09 am](https://f.cloud.github.com/assets/1994838/1085995/58be5ae8-15ec-11e3-9606-96a1cba4284e.png)
