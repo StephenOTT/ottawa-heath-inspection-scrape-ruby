@@ -70,6 +70,10 @@ class DownloadHealthInspections
 	end
 
 	def parseHealthRecordSingle(healthRecord)
+  		puts healthRecord
+		parsedXML = Nokogiri::XML(healthRecord)
+		#puts parsedXML
+		#selectAllEnglishInspectionData = "response/result/doc/arr[@name='fs_insp_en']//*"
 		
 		# Fixes Date Strings in Facility/Restarant information
 		# If statement is used to ensure that the date is not null otherway the strptime would throw a exception if it was null
