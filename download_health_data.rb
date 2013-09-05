@@ -134,7 +134,7 @@ class AnalyzeHealthInspectionData
 		# MongoDB client and DB credential information
 		@client = MongoClient.new('localhost', 27017)
 		@db = @client['HealthInspections']
-		@coll = @db['Inspections_copy_5453']
+		@coll = @db['Inspections']
 	
 	end
 
