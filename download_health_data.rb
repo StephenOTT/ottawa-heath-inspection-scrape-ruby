@@ -193,11 +193,32 @@ class AnalyzeHealthInspectionData
 end
 
 
+class MyApp < Sinatra::Base
 
 
 #start = DownloadHealthInspections.new
 analyze = AnalyzeHealthInspectionData.new
 
+  get '/' do
+
+    @foo = 'erb23'
+    analyze = AnalyzeHealthInspectionData.new
+    #@values = analyze.analyzeRestaurantsCreatedPerMonth.to_s
+    @pie = pie_chart(analyze.analyzeRestaurantCategoryCount)
+    @bar = line_chart(analyze.analyzeRestaurantCategoryCount)
+  	@column = column_chart(analyze.analyzeRestaurantCategoryCount)
+
+
+    erb :index
+  end
+end
+
+
+
+
+start = DownloadHealthInspections.new
+#analyze = AnalyzeHealthInspectionData.new
+#MyApp.run!
 #puts "************************************************** Restarant Name Count:"
 #puts analyze.analyzeRestaurantNameCount
 #puts "************************************************** Restarant Category Count:"
@@ -217,5 +238,4 @@ get '/' do
 	erb code
 
 end
-
 
