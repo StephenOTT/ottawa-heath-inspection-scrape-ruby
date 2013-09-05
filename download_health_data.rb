@@ -170,6 +170,17 @@ class AnalyzeHealthInspectionData
 		])
 	end
 
+	def analyzeRestaurantsCreatedPerMonth
+		return restaurantsCreatedPerMonth = @coll.aggregate([
+		    { "$project" => {created_month: {"$month" => "$doc.str.fs_fcr_date"}}},
+		    { "$group" => {_id: {"created_month" => "$doc.str.fs_fcr_date"}, number: { "$sum" => 1 }}},
+		    { "$sort" => {"_id.created_month" => 1}}
+		])
+
+	end
+
+
+
 	def produceChart(data)
 
 		values = []
