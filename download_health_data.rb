@@ -6,6 +6,7 @@ require 'sinatra'
 require 'chartkick'
 require 'erb'
 require 'pp'
+require 'nokogiri'
 
 
 include Mongo
