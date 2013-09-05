@@ -50,6 +50,7 @@ class DownloadHealthInspections
 		end
 	end
 
+	# TODO Convert from XMLSimple to Nokogiri using xpath
 	def parseHealthListXML(xmlData)
 		parsedXML = XmlSimple.xml_in(xmlData, { 'KeyAttr' => 'name', 'ContentKey' => '-content'} )
 		if @count >= parsedXML["result"][0]["numFound"].to_i + 15
@@ -60,7 +61,8 @@ class DownloadHealthInspections
 		end
 
 	end
-
+	
+	
 	def processHealthList(dataToParse)
 		healthList = dataToParse["result"][0]["doc"]
 		healthList.each do |y|
