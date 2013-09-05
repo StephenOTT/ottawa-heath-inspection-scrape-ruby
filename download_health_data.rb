@@ -342,8 +342,6 @@ end
 class MyApp < Sinatra::Base
 
 
-#start = DownloadHealthInspections.new
-analyze = AnalyzeHealthInspectionData.new
 
   get '/' do
 
@@ -379,5 +377,4 @@ start = DownloadHealthInspections.new
 #puts analyze.analyzeRestaurantStreetCount
 #puts "************************************************** Restarants Creation Date Count:"
 #puts analyze.analyzeRestaurantCreationDateCount
-#dog = analyze.analyzeRestaurantCategoryCount
 #dog = analyze.analyzeRestaurantCategoryCount
