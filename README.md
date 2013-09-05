@@ -19,10 +19,11 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 - [ ] Add suport for multilingual (En/Fr) Analysis class responses
 - [ ] Convert into Sinatra App
 - [ ] Rebuild Analysis/Aggregation code for new usage of Nokogiri
+- [ ] Split .rd file into separate files (download, analyze, Sinatra stuff, etc)
 
 
 
-NOTE: Sept 2: Major refactor coming in next few days that better reformats data into Mongo
+~~NOTE: Sept 2: Major refactor coming in next few days that better reformats data into Mongo~~  Refactor has occured for use of xpath and customized output for mongo.  See image/screenshot below for sample. (Sept 5)
 
 
 
