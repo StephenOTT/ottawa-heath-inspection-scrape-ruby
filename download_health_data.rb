@@ -456,8 +456,8 @@ MyApp.run!
 # puts analyze.analyzeRestaurantInspectionsPerMonth
 # puts "************************************************** Restaurant Inspections date count:"
 # puts analyze.analyzeRestaurantInspectionDates
-# puts "************************************************** Unwind TEST:"
- #puts analyze.analyzeRestaurantInspectionsCount("month")
+# puts "************************************************** Restaurant Inspection Counts:"
+ # puts analyze.analyzeRestaurantInspectionsCount("")
 
 # puts analyze.produceChart(analyze.analyzeRestaurantCategoryCount)
 
