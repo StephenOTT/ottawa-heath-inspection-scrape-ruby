@@ -84,3 +84,13 @@ All data will download into mongodb database.  Each company.restaurant is a sing
 ![screen shot 2013-09-05 at 1 58 09 am](https://f.cloud.github.com/assets/1994838/1086089/53bf143e-15f0-11e3-9f80-0161579bc1bb.png)
 ![screen shot 2013-09-05 at 1 58 37 am](https://f.cloud.github.com/assets/1994838/1086090/5533113a-15f0-11e3-9ef7-70c5024623b1.png)
 
+-----
+
+### Graphs for first round of Sample analysis
+![screen shot 2013-09-06 at 4 31 01 pm](https://f.cloud.github.com/assets/1994838/1099315/319ea35c-1734-11e3-99d9-d4c3939b8b03.png)
+![screen shot 2013-09-06 at 4 30 33 pm](https://f.cloud.github.com/assets/1994838/1099316/31aedd44-1734-11e3-8242-b3377a1b9414.png)
+![screen shot 2013-09-06 at 4 30 38 pm](https://f.cloud.github.com/assets/1994838/1099317/31b0070a-1734-11e3-90ca-01340226a3c4.png)
+![screen shot 2013-09-06 at 4 30 28 pm](https://f.cloud.github.com/assets/1994838/1099318/31b00552-1734-11e3-943d-8b5533d0b356.png)
+
+
+
