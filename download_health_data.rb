@@ -2,7 +2,7 @@ require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
 require 'date'
-require 'sinatra'
+# require 'sinatra'
 require 'chartkick'
 require 'erb'
 require 'pp'
@@ -154,7 +154,7 @@ class DownloadHealthInspections
 		# loops through each <inspection> tag
 		if facilityInspectionCount != 0 
 			
-			facilityInspections ={}
+			facilityInspections =[]
 			
 			(1..facilityInspectionCount).each do |i|
 				
@@ -172,7 +172,7 @@ class DownloadHealthInspections
 				
 				if facilityInspectionQuestionCount != 0
 
-					inspectionQuestions = {}
+					inspectionQuestions = []
 
 					# Collect Question data - loops through each question
 					(1..facilityInspectionQuestionCount).each do |qc|
@@ -194,44 +194,54 @@ class DownloadHealthInspections
 						if facilityInspectionQuestionCommentCount != 0
 
 							# Hash to hold each of the comments for each of the questions for each of the inspections
-							inspectionQuestionComments = {}
+							inspectionQuestionComments = []
 
 							# Collect Comment Data - loops through each comment field in the xml of each question field of each inspection
 							(1..facilityInspectionQuestionCommentCount).each do |qcc|
 
 								facilityinspectionData_QuestionDataCommentText = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/comment[#{qcc}])")
-								inspectionQuestionComments['comment_' + qcc.to_s] = facilityinspectionData_QuestionDataCommentText
+								# inspectionQuestionComments['comment_' + qcc.to_s] = facilityinspectionData_QuestionDataCommentText
+								inspectionQuestionComments << facilityinspectionData_QuestionDataCommentText
 							end
 						end
 										# Add Question text and question details 
-						inspectionQuestions['question_' + qc.to_s] = {	'Sort' => facilityinspectionData_QuestionData_sort, 
-																		'ComplianceResultCode'  => facilityinspectionData_QuestionData_complianceresultcode,
-																		'ComplianceResultText' => facilityinspectionData_QuestionData_complianceresulttext,
-																		'RiskLevelId' => facilityinspectionData_QuestionData_risklevelid,
-																		'RiskLevelText' => facilityinspectionData_QuestionData_riskleveltext,
-																		'ComplianceCategoryCode' => facilityinspectionData_QuestionData_compliancecategorycode,
-																		'ComplianceCategoryText' => facilityinspectionData_QuestionData_compliancecategorytext,
-																		'ComplianceDescriptionCode' => facilityinspectionData_QuestionData_compliancedescriptioncode,
-																		'QuestionText' => facilityinspectionData_QuestionData_qtext,
-																		'InspectionQuestionComments' => inspectionQuestionComments
-																	}
+						inspectionQuestions << {	'Sort' => facilityinspectionData_QuestionData_sort, 
+													'ComplianceResultCode'  => facilityinspectionData_QuestionData_complianceresultcode,
+													'ComplianceResultText' => facilityinspectionData_QuestionData_complianceresulttext,
+													'RiskLevelId' => facilityinspectionData_QuestionData_risklevelid,
+													'RiskLevelText' => facilityinspectionData_QuestionData_riskleveltext,
+													'ComplianceCategoryCode' => facilityinspectionData_QuestionData_compliancecategorycode,
+													'ComplianceCategoryText' => facilityinspectionData_QuestionData_compliancecategorytext,
+													'ComplianceDescriptionCode' => facilityinspectionData_QuestionData_compliancedescriptioncode,
+													'QuestionText' => facilityinspectionData_QuestionData_qtext,
+													'InspectionQuestionComments' => inspectionQuestionComments
+												}
 						if facilityInspectionQuestionCommentCount == 0
-							inspectionQuestions['question_' + qc.to_s].delete('InspectionQuestionComments')
+							#inspectionQuestions['question_' + qc.to_s].delete('InspectionQuestionComments')
+
+							#still needs to be tested
+							inspectionQuestions.last.delete('InspectionQuestionComments')
+
 						end
 					end
 				end
 
-				facilityInspections['inspection_' + i.to_s] = {
-													'InspectionId' => facilityinspectionData_inspectionid,
-													'FacilityDetailId' => facilityinspectionData_facilitydetailid,
-													'InspectionDate' => facilityinspectionData_inspectiondate,
-													'IsInCompliance' => facilityinspectionData_isincompliance,
-													'ClosureDate' => facilityinspectionData_closuredate,
-													'ReportNumber' => facilityinspectionData_reportnumber,
-													'InspectionQuestionDetails' => inspectionQuestions
-												}
+				facilityInspections << {
+										'InspectionId' => facilityinspectionData_inspectionid,
+										'FacilityDetailId' => facilityinspectionData_facilitydetailid,
+										'InspectionDate' => facilityinspectionData_inspectiondate,
+										'IsInCompliance' => facilityinspectionData_isincompliance,
+										'ClosureDate' => facilityinspectionData_closuredate,
+										'ReportNumber' => facilityinspectionData_reportnumber,
+										'InspectionQuestionDetails' => inspectionQuestions
+									}
 				if facilityInspectionQuestionCount == 0 
-					facilityInspections['inspection_' + i.to_s].delete('InspectionQuestionDetails')
+					# facilityInspections['inspection_' + i.to_s].delete('InspectionQuestionDetails')
+
+					#Still needs to be tested
+					#puts facilityInspections[facilityInspections.last]
+					facilityInspections.last.delete('InspectionQuestionDetails')
+
 				end
 			end
 		end
@@ -285,9 +295,9 @@ class DownloadHealthInspections
 			facilityDetails.delete('FacilityInspections')
 		end
 
-		puts '***** Facility Hash ******'
-		puts pp facilityDetails
-		puts '*********END**************'
+		#puts '***** Facility Hash ******'
+		#puts pp facilityDetails
+		#puts '*********END**************'
 		
 		self.putHealthXMLinMongo(facilityDetails)
 	end
@@ -311,54 +321,88 @@ class AnalyzeHealthInspectionData
 
 	def analyzeRestaurantNameCount
 		return restaurantNameCount = @coll.aggregate([
-		    { "$project" => {doc:{str:{fs_fnm: 1}}}},
-		    { "$group" => {_id: "$doc.str.fs_fnm", number: { "$sum" => 1 }}},
+		    { "$project" => {fs_fnm: 1}},
+		    { "$group" => {_id: "$fs_fnm", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
 	end
 
 	def analyzeRestaurantCategoryCount
-		restaurantCategoryCount = @coll.aggregate([
-		    { "$project" => {doc:{str:{fs_ft_en: 1}}}},
-		    { "$group" => {_id: "$doc.str.fs_ft_en", number: { "$sum" => 1 }}},
+		return restaurantCategoryCount = @coll.aggregate([
+		    { "$project" => {fs_ft_en: 1}},
+		    { "$group" => {_id: "$fs_ft_en", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
-		
-		# TODO clean up hash creation code with better namming
-		newHash={}
-		restaurantCategoryCount.each do |x|
-
-			newHash[x["_id"][0]] = x["number"]
-
-		end
-		return newHash
-
 	end
 
 	def analyzeRestaurantStreetCount
 		return restaurantStreetCount = @coll.aggregate([
-		    { "$project" => {doc:{str:{fs_fss: 1}}}},
-		    { "$group" => {_id: "$doc.str.fs_fss", number: { "$sum" => 1 }}},
+		    { "$project" => {fs_fss: 1}},
+		    { "$group" => {_id: "$fs_fss", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
 	end
 
 	def analyzeRestaurantCreationDateCount
 		return restaurantCreationDateCount = @coll.aggregate([
-		    { "$project" => {doc:{str:{fs_fcr_date: 1}}}},
-		    { "$group" => {_id: "$doc.str.fs_fcr_date", number: { "$sum" => 1 }}},
+		    { "$project" => {fs_fcr_date: 1}},
+		    { "$group" => {_id: "$fs_fcr_date", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
 	end
 
+	# Does not current work because of "nil" values that are in ~500 facilities fs_fcr_date field.
 	def analyzeRestaurantsCreatedPerMonth
 		return restaurantsCreatedPerMonth = @coll.aggregate([
-		    { "$project" => {created_month: {"$month" => "$doc.str.fs_fcr_date"}}},
-		    { "$group" => {_id: {"created_month" => "$doc.str.fs_fcr_date"}, number: { "$sum" => 1 }}},
+		    { "$project" => {created_month: {"$month" => "$fs_fcr_date"}}},
+		    { "$group" => {_id: {"created_month" => "$fs_fcr_date"}, number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id.created_month" => 1}}
 		])
 
 	end
+
+	def analyzeRestaurantInspectionsPerMonth
+		return restaurantsInspectionsPerMonth = @coll.aggregate([
+		    { "$project" => {inspectionclosure_month: {"$month" => "$FacilityInspections.ClosureDate"}}},
+		    { "$group" => {_id: {"inspectionclosure_month" => "$FacilityInspections.ClosureDate"}, number: { "$sum" => 1 }}},
+		    { "$sort" => {"_id.inspectionclosure_month" => 1}}
+		])
+
+	end
+	def analyzeRestaurantInspectionDates
+		return restaurantInspectionDates = @coll.aggregate([
+		    { "$project" => {FacilityInspections: {fs_fcr_date: 1}}},
+		    { "$group" => {_id: "$fs_fcr_date", number: { "$sum" => 1 }}},
+		    { "$sort" => {"_id" => 1 }}
+		])
+	end
+	def analyzeRestaurantInspectionsCount (countType)
+		 unwindTestData = @coll.aggregate([
+			{"$unwind" => "$FacilityInspections" },
+			{"$project" => {num: {"$#{countType}" => "$FacilityInspections.ClosureDate"}}},
+			{"$group" => {_id:{"CountNum" => "$num"}, number: { "$sum" => 1 }}},
+			{ "$sort" => {"_id.CountNum" => 1 }}
+
+		])
+		newHash={}
+		unwindTestData.each do |x|
+	 		if countType == "month"
+				newHash[Date::MONTHNAMES[x["_id"]["CountNum"]]] = x["number"]
+			elsif countType == "week"
+				newHash[x["_id"]["CountNum"]] = x["number"]
+			elsif countType == "hour"
+				newHash[x["_id"]["CountNum"]] = x["number"]
+			elsif countType == "dayOfWeek"
+				newHash[Date::DAYNAMES[x["_id"]["CountNum"]]] = x["number"]
+			end
+		end
+		return newHash
+
+
+	end
+
+
+
 
 
 
@@ -385,42 +429,47 @@ class AnalyzeHealthInspectionData
 end
 
 
-class MyApp < Sinatra::Base
+# class MyApp < Sinatra::Base
 
 
 
-  get '/' do
+#   get '/' do
 
-    @foo = 'erb23'
-    analyze = AnalyzeHealthInspectionData.new
-    #@values = analyze.analyzeRestaurantsCreatedPerMonth.to_s
-    @pie = pie_chart(analyze.analyzeRestaurantCategoryCount)
-    @bar = line_chart(analyze.analyzeRestaurantCategoryCount)
-  	@column = column_chart(analyze.analyzeRestaurantCategoryCount)
+#     @foo = 'erb23'
+#     analyze = AnalyzeHealthInspectionData.new
+#   	@hourBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("hour"))
+#   	@weekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("week"))
+#   	@monthBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("month"))
+#   	@dayOfWeekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("dayOfWeek"))
 
-
-    erb :index
-  end
-end
-
+#     erb :index
+#   end
+# end
 
 
 
-start = DownloadHealthInspections.new
-#analyze = AnalyzeHealthInspectionData.new
-#MyApp.run!
-#puts "************************************************** Restarant Name Count:"
-#puts analyze.analyzeRestaurantNameCount
-#puts "************************************************** Restarant Category Count:"
-#puts analyze.analyzeRestaurantCategoryCount
 
-#puts "************************************************** Restarant Category Created Per Month Count:"
-#puts analyze.analyzeRestaurantsCreatedPerMonth
+ start = DownloadHealthInspections.new
+# analyze = AnalyzeHealthInspectionData.new
 
-#puts analyze.produceChart(analyze.analyzeRestaurantCategoryCount)
+# MyApp.run!
+# puts "************************************************** Restaurant Name Count:"
+# puts analyze.analyzeRestaurantNameCount
+# puts "************************************************** Restaurant Category Count:"
+# puts analyze.analyzeRestaurantCategoryCount
+# puts "************************************************** Restaurants Per Street Count:"
+# puts analyze.analyzeRestaurantStreetCount
+# puts "************************************************** Restaurants Creation Date Count:"
+# puts analyze.analyzeRestaurantCreationDateCount
+# puts "************************************************** Restaurant Category Created Per Month Count:"
+# puts analyze.analyzeRestaurantsCreatedPerMonth
+# puts "************************************************** Restaurant Inspections Per Month (Closure Date Field):"
+# puts analyze.analyzeRestaurantInspectionsPerMonth
+# puts "************************************************** Restaurant Inspections date count:"
+# puts analyze.analyzeRestaurantInspectionDates
+# puts "************************************************** Unwind TEST:"
+ #puts analyze.analyzeRestaurantInspectionsCount("month")
 
-#puts "************************************************** Restarants Per Street Count:"
-#puts analyze.analyzeRestaurantStreetCount
-#puts "************************************************** Restarants Creation Date Count:"
-#puts analyze.analyzeRestaurantCreationDateCount
+# puts analyze.produceChart(analyze.analyzeRestaurantCategoryCount)
+
 #dog = analyze.analyzeRestaurantCategoryCount
