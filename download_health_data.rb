@@ -2,7 +2,7 @@ require 'rest_client'
 require 'mongo'
 require 'xmlsimple'
 require 'date'
-# require 'sinatra'
+require 'sinatra'
 require 'chartkick'
 require 'erb'
 require 'pp'
@@ -79,11 +79,10 @@ class DownloadHealthInspections
 	# TODO Benchmark and time test parse and look for optimizations
 	# TODO Rename Variables for better understanding and less similar names
 	# TODO 
+	#Nokogiri was used with xpath for ultimate configuration options for managing field names and configuration
 	def parseHealthRecordSingle(healthRecord)
   		puts healthRecord
 		parsedXML = Nokogiri::XML(healthRecord)
-		#puts parsedXML
-		#selectAllEnglishInspectionData = "response/result/doc/arr[@name='fs_insp_en']//*"
 		
 		# Restaurant/Facility Information/Details
 		inspValue_app_id = parsedXML.xpath("string(response/result/doc/str[@name='app_id'])")
@@ -200,7 +199,6 @@ class DownloadHealthInspections
 							(1..facilityInspectionQuestionCommentCount).each do |qcc|
 
 								facilityinspectionData_QuestionDataCommentText = parsedXML.xpath("string(response/result/doc/arr[@name='fs_insp_en']/inspection[#{i}]/question[#{qc}]/comment[#{qcc}])")
-								# inspectionQuestionComments['comment_' + qcc.to_s] = facilityinspectionData_QuestionDataCommentText
 								inspectionQuestionComments << facilityinspectionData_QuestionDataCommentText
 							end
 						end
@@ -217,11 +215,7 @@ class DownloadHealthInspections
 													'InspectionQuestionComments' => inspectionQuestionComments
 												}
 						if facilityInspectionQuestionCommentCount == 0
-							#inspectionQuestions['question_' + qc.to_s].delete('InspectionQuestionComments')
-
-							#still needs to be tested
 							inspectionQuestions.last.delete('InspectionQuestionComments')
-
 						end
 					end
 				end
@@ -236,12 +230,7 @@ class DownloadHealthInspections
 										'InspectionQuestionDetails' => inspectionQuestions
 									}
 				if facilityInspectionQuestionCount == 0 
-					# facilityInspections['inspection_' + i.to_s].delete('InspectionQuestionDetails')
-
-					#Still needs to be tested
-					#puts facilityInspections[facilityInspections.last]
 					facilityInspections.last.delete('InspectionQuestionDetails')
-
 				end
 			end
 		end
@@ -429,30 +418,30 @@ class AnalyzeHealthInspectionData
 end
 
 
-# class MyApp < Sinatra::Base
+class MyApp < Sinatra::Base
 
 
 
-#   get '/' do
+  get '/' do
 
-#     @foo = 'erb23'
-#     analyze = AnalyzeHealthInspectionData.new
-#   	@hourBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("hour"))
-#   	@weekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("week"))
-#   	@monthBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("month"))
-#   	@dayOfWeekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("dayOfWeek"))
+    @foo = 'erb23'
+    analyze = AnalyzeHealthInspectionData.new
+  	@hourBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("hour"))
+  	@weekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("week"))
+  	@monthBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("month"))
+  	@dayOfWeekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("dayOfWeek"))
 
-#     erb :index
-#   end
-# end
-
-
+    erb :index
+  end
+end
 
 
- start = DownloadHealthInspections.new
+
+
+ # start = DownloadHealthInspections.new
 # analyze = AnalyzeHealthInspectionData.new
 
-# MyApp.run!
+MyApp.run!
 # puts "************************************************** Restaurant Name Count:"
 # puts analyze.analyzeRestaurantNameCount
 # puts "************************************************** Restaurant Category Count:"
