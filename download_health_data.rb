@@ -384,13 +384,14 @@ class AnalyzeHealthInspectionData
 		])
 		newHash={}
 		unwindTestData.each do |x|
-	 		if countType == "month"
+			case countType
+	 		when "month"
 				newHash[Date::MONTHNAMES[x["_id"]["CountNum"]]] = x["number"]
-			elsif countType == "week"
+			when "week"
 				newHash[x["_id"]["CountNum"]] = x["number"]
-			elsif countType == "hour"
+			when "hour"
 				newHash[x["_id"]["CountNum"]] = x["number"]
-			elsif countType == "dayOfWeek"
+			when "dayOfWeek"
 				newHash[Date::DAYNAMES[x["_id"]["CountNum"]]] = x["number"]
 			end
 		end
