@@ -84,6 +84,7 @@ class DownloadHealthInspections
   		puts healthRecord
 		parsedXML = Nokogiri::XML(healthRecord)
 		
+		# TODO add variable for xpath path for string(response/result/doc/str[@name='XXXXX'])
 		# Restaurant/Facility Information/Details
 		inspValue_app_id = parsedXML.xpath("string(response/result/doc/str[@name='app_id'])")
 		inspValue_fs_fa_en = parsedXML.xpath("string(response/result/doc/str[@name='fs_fa_en'])")
