@@ -318,11 +318,19 @@ class AnalyzeHealthInspectionData
 	end
 
 	def analyzeRestaurantCategoryCount
-		return restaurantCategoryCount = @coll.aggregate([
+		restaurantCategoryCount = @coll.aggregate([
 		    { "$project" => {fs_ft_en: 1}},
 		    { "$group" => {_id: "$fs_ft_en", number: { "$sum" => 1 }}},
 		    { "$sort" => {"_id" => 1 }}
 		])
+
+		newHash={}
+		restaurantCategoryCount.each do |x|
+			newHash[x["_id"]] = x["number"]
+		end
+		return newHash
+
+	
 	end
 
 	def analyzeRestaurantStreetCount
@@ -431,6 +439,8 @@ class MyApp < Sinatra::Base
   	@weekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("week"))
   	@monthBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("month"))
   	@dayOfWeekBreakdown = column_chart(analyze.analyzeRestaurantInspectionsCount("dayOfWeek"))
+
+  	@restaurantCategoryCountBreakdown = pie_chart(analyze.analyzeRestaurantCategoryCount)
 
     erb :index
   end
